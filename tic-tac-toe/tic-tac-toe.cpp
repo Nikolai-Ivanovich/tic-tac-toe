@@ -12,8 +12,8 @@ bool isCoordinatesClear(int xy[2], char matrix[SIZE][SIZE]);
 void writeCoordinates(int xy[2], char matrix[SIZE][SIZE], char symbol);
 
 
-void printfMatrix(char matrix[3][3]);
-void getClearMatrix(char matrix[3][3]);
+void printfMatrix(char matrix[SIZE][SIZE]);
+void getClearMatrix(char matrix[SIZE][SIZE]);
 
 int main()
 {
