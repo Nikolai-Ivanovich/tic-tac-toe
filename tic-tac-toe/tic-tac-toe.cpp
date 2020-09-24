@@ -21,10 +21,8 @@ void enterUserCoordinates(int xy[2]);
 bool isUserCorrectCoordinates(int xy[2]);
 
 // Ai
-int checkMatrixAttackAI(int xy[2], char matrix[SIZE][SIZE]);
 int checkMatrixDefAI(int xy[2], char matrix[SIZE][SIZE]);
 void searchClearCoordinatesAi(int xy[2], char matrix[SIZE][SIZE]);
-//void enterCoordinatesAI(int xy[2], char matrix[SIZE][SIZE], char symbol);
 
 
 void getAICoordinates(int xy[2]);
@@ -36,10 +34,16 @@ int main()
     char matrix[SIZE][SIZE];
 
     getClearMatrix(matrix); //put in every element of array symbol ' '
-    printfMatrix(matrix);
-
     while (true)
     {
+        clearDisplay();
+        printfMatrix(matrix);
+        if (isWinnerDetermined(matrix))
+        {
+            cout << "AI win";
+            break;
+        }
+
         getUserCoordinates(xyUser, matrix);   //check and enter values in array xy
 
         writeCoordinates(xyUser, matrix, 'x');  // записать в массив matrix символ с координатой ху
@@ -52,160 +56,20 @@ int main()
             break;
         }
 
-        if (checkMatrixAttackAI(xyAI, matrix) == 0)
-        {
-            continue;
-        }
         if (checkMatrixDefAI(xyAI, matrix) == 0)
         {
             clearDisplay();
             printfMatrix(matrix);
             continue;
         }
-        searchClearCoordinatesAi(xyAI, matrix);
+        searchClearCoordinatesAi(xyAI, matrix);     
 
-        clearDisplay();
-        printfMatrix(matrix);
-
-        if (isWinnerDetermined(matrix))
-        {
-            cout << "AI win";
-            break;
-        }
+        
     }
-
-    //clearDisplay();
-    cout << "you win";
-
-    getAICoordinates(xyAI);
 
     return 0;
 }
 
-int checkMatrixAttackAI(int xy[2], char matrix[SIZE][SIZE])
-{
-    // 1. должна проверить есть ли совпадения когда 2 ячейки O и одна свободна
-    if (matrix[0][0] == matrix[0][1] and matrix[0][0] != ' ') { // 0 line
-        xy[0] = 0, xy[1] = 2;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][0] == matrix[0][2] and matrix[0][0] != ' ' and matrix[0][1] != 'o') { // 0 line
-        xy[0] = 0, xy[1] = 1;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][1] == matrix[0][2] and matrix[0][1] != ' ') { // 0 line
-        xy[0] = 0, xy[1] = 0;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[1][0] == matrix[1][1] and matrix[1][0] != ' ') { // 1 line
-        xy[0] = 1, xy[1] = 2;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[1][0] == matrix[1][2] and matrix[1][0] != ' ') { // 1 line
-        xy[0] = 1, xy[1] = 1;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[1][1] == matrix[1][2] and matrix[1][1] != ' ') { // 1 line
-        xy[0] = 1, xy[1] = 0;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[2][0] == matrix[2][1] and matrix[2][0] != ' ') { // 2 line
-        xy[0] = 2, xy[1] = 2;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[2][0] == matrix[2][2] and matrix[2][0] != ' ') { // 2 line
-        xy[0] = 2, xy[1] = 1;
-        writeCoordinates(xy, matrix, 'o');
-    }
-    else if (matrix[2][1] == matrix[2][2] and matrix[2][0] != ' ') { // 2 line
-        xy[0] = 2; xy[1] = 0;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][0] == matrix[1][0] and matrix[0][0] != ' ') { // column 0
-        xy[0] = 2, xy[1] = 0;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][0] == matrix[2][0] and matrix[0][0] != ' ') { // column 0
-        xy[0] = 1, xy[0] = 0;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[2][0] == matrix[1][0] and matrix[2][0] != ' ') { // column 0
-        xy[0] = 0, xy[0] = 0;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][1] == matrix[1][1] and matrix[0][1] != ' ') { // column 1
-        xy[0] = 2, xy[0] = 1;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][1] == matrix[2][1] and matrix[0][1] != ' ') { // column 1
-        xy[0] = 1, xy[0] = 1;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[1][1] == matrix[2][1] and matrix[1][1] != ' ') { // column 1
-        xy[0] = 0, xy[0] = 1;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][2] == matrix[1][2] and matrix[0][2] != ' ') { // column 2
-        xy[0] = 2, xy[0] = 2;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][2] == matrix[2][2] and matrix[0][2] != ' ') { // column 2
-        xy[0] = 1, xy[0] = 2;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[1][2] == matrix[2][2] and matrix[1][2] != ' ') { // column 2
-        xy[0] = 0, xy[0] = 0;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][0] == matrix[2][2] and matrix[0][0] != ' ') { // diagonal 00 -- 22
-        xy[0] = 1, xy[1] = 1;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][0] == matrix[1][1] and matrix[0][0] != ' ') { //diagonal 00 -- 11
-        xy[0] = 2, xy[1] = 2;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[2][2] == matrix[1][1] and matrix[1][1] != ' ') { //diagonal 22 -- 11
-        xy[0] = 0, xy[1] = 0;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[2][0] == matrix[0][2] and matrix[2][0] != ' ') { // diagonal 20 -- 02
-        xy[0] = 1, xy[1] = 1;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[2][0] == matrix[1][1] and matrix[2][0] != ' ') { //diagonal 20 -- 11
-        xy[0] = 0, xy[1] = 2;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    else if (matrix[0][2] == matrix[1][1] and matrix[0][2] != ' ') { //diagonal 02 -- 11
-        xy[0] = 2, xy[1] = 0;
-        writeCoordinates(xy, matrix, 'o');
-        return 0;
-    }
-    return 1;
-}
 int checkMatrixDefAI(int xy[2], char matrix[SIZE][SIZE])
 {
     // 2. перекрытие выигрышных вариантов пользователя  когда 2 ячейка X и одна свободна
@@ -333,7 +197,7 @@ int checkMatrixDefAI(int xy[2], char matrix[SIZE][SIZE])
 
 void writeCoordinates(int xy[2], char matrix[SIZE][SIZE], char symbol) {
     matrix[xy[0]][xy[1]] = symbol;
-    }
+}
 
 bool isWinnerDeterminedHorisontal(char matrix[SIZE][SIZE])
 {
@@ -346,6 +210,7 @@ bool isWinnerDeterminedHorisontal(char matrix[SIZE][SIZE])
                 consistency++;
             else
             {
+                consistency = 0;
                 break;
             }
         }
@@ -366,6 +231,7 @@ bool isWinnerDeterminedVertical(char matrix[SIZE][SIZE])
                 consistency++;
             else
             {
+                consistency = 0;
                 break;
             }
         }
@@ -439,7 +305,7 @@ bool isWinnerDetermined(char matrix[SIZE][SIZE])
 
 
 
-void searchClearCoordinatesAi(int xy[2],char matrix[SIZE][SIZE])
+void searchClearCoordinatesAi(int xy[2], char matrix[SIZE][SIZE])
 {
     while (true)
     {
