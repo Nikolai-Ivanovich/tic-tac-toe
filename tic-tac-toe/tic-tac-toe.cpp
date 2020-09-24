@@ -58,6 +58,8 @@ int main()
         }
         if (checkMatrixDefAI(xyAI, matrix) == 0)
         {
+            clearDisplay();
+            printfMatrix(matrix);
             continue;
         }
         searchClearCoordinatesAi(xyAI, matrix);
