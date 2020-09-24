@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 //#include <windows.h>
 using namespace std;
 #define SIZE 3
@@ -16,14 +16,16 @@ bool isWinnerDeterminedSlantingRightToLeft(char matrix[SIZE][SIZE]);
 void clearDisplay();
 
 // User
-void getUserCoordinates(int xy[2], char matrix[SIZE][SIZE]);
+void checkUserCoordinates(int xy[2], char matrix[SIZE][SIZE]);
 void enterUserCoordinates(int xy[2]);
 bool isUserCorrectCoordinates(int xy[2]);
 
 // Ai
-void checkMatrixAttackAI(char matrix[SIZE][SIZE]);
-void checkMatrixDefAI(char matrix[SIZE][SIZE]);
+void checkMatrixAttackAI(int xy[2], char matrix[SIZE][SIZE]);
+void checkMatrixDefAI(int xy[2], char matrix[SIZE][SIZE]);
 void searchClearCoordinatesAi(char matrix[SIZE][SIZE]);
+//void enterCoordinatesAI(int xy[2], char matrix[SIZE][SIZE], char symbol);
+
 
 void getAICoordinates(int xy[2]);
 
@@ -33,15 +35,21 @@ int main()
     int xyAI[2], xyUser[2];
     char matrix[SIZE][SIZE];
 
-    getClearMatrix(matrix);
-    printfMatrix(matrix);
-
+    getClearMatrix(matrix); //put in every element of array symbol ' '
+    printfMatrix(matrix);   //print a play field
 
     while (true)
     {
+        checkUserCoordinates(xyUser, matrix);   //check and enter values in array xy
         
-        getUserCoordinates(xyUser, matrix);
-        writeCoordinates(xyUser, matrix, 'x');
+        checkMatrixAttackAI(xyAI, matrix);
+        
+        writeCoordinates(xyUser, matrix, 'x');  // записать в массив matrix символ с координатой ху
+        clearDisplay();
+        printfMatrix(matrix);
+
+        checkMatrixDefAI(xyAI, matrix);
+        
         clearDisplay();
         printfMatrix(matrix);
 
@@ -54,13 +62,126 @@ int main()
     clearDisplay();
     cout << "you win";
 
-       
-
     getAICoordinates(xyAI);
 
     return 0;
 }
 
+void checkMatrixAttackAI(int xy[2], char matrix[SIZE][SIZE])
+{
+    // 1. должна проверить есть ли совпадения когда 2 ячейки O и одна свободна
+    if (matrix[1][1] == ' ')
+    {
+        xy[0] = 1, xy[1] = 1;
+        writeCoordinates(xy, matrix, 'o');
+        clearDisplay();
+        printfMatrix(matrix);
+    }
+}
+void checkMatrixDefAI(int xy[2], char matrix[SIZE][SIZE])
+{
+    // 2. перекрытие выигрышных вариантов пользователя  когда 2 ячейка X и одна свободна
+    if (matrix[0][0] == matrix[0][1] and matrix[0][0] != ' ') { // 0 line
+        xy[0] = 0, xy[1] = 2;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][0] == matrix[0][2] and matrix[0][0] != ' ') { // 0 line
+        xy[0] = 0, xy[1] = 1;
+        writeCoordinates(xy, matrix, 'o');
+    }            
+    if (matrix[0][1] == matrix[0][2] and matrix[0][1] != ' ') { // 0 line
+        xy[0] = 0, xy[1] = 0;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[1][0] == matrix[1][1] and matrix[1][0] != ' ') { // 1 line
+        xy[0] = 1, xy[1] = 2;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[1][0] == matrix[1][2] and matrix[1][0] != ' ') { // 1 line
+        xy[0] = 1, xy[1] = 1;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[1][1] == matrix[1][2] and matrix[1][1] != ' ') { // 1 line
+        xy[0] = 1, xy[1] = 0;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[2][0] == matrix[2][1] and matrix[2][0] != ' ') { // 2 line
+        xy[0] = 2, xy[1] = 2;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[2][0] == matrix[2][2] and matrix[2][0] != ' ') { // 2 line
+        xy[0] = 2, xy[1] = 1;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[2][1] == matrix[2][2] and matrix[2][0] != ' ') { // 2 line
+        xy[0] = 2; xy[1] = 0;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][0] == matrix[1][0] and matrix[0][0] != ' ') { // column 0
+        xy[0] = 2, xy[1] = 0;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][0] == matrix[2][0] and matrix[0][0] != ' ') { // column 0
+        xy[0] = 1, xy[0] = 0;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[2][0] == matrix[1][0] and matrix[2][0] != ' ') { // column 0
+        xy[0] = 0, xy[0] = 0;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][1] == matrix[1][1] and matrix[0][1] != ' ') { // column 1
+        xy[0] = 2, xy[0] = 1;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][1] == matrix[2][1] and matrix[0][1] != ' ') { // column 1
+        xy[0] = 1, xy[0] = 1;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[1][1] == matrix[2][1] and matrix[1][1] != ' ') { // column 1
+        xy[0] = 0, xy[0] = 1;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][2] == matrix[1][2] and matrix[0][2] != ' ') { // column 2
+        xy[0] = 2, xy[0] = 2;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][2] == matrix[2][2] and matrix[0][2] != ' ') { // column 2
+        xy[0] = 1, xy[0] = 2;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[1][2] == matrix[2][2] and matrix[1][2] != ' ') { // column 2
+        xy[0] = 0, xy[0] = 0;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][0] == matrix[2][2] and matrix[0][0] != ' ') { // diagonal 00 -- 22
+        xy[0] = 1, xy[1] = 1;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][0] == matrix[1][1] and matrix[0][0] != ' ') { //diagonal 00 -- 11
+        xy[0] = 2, xy[1] = 2;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[2][2] == matrix[1][1] and matrix[1][1] != ' ') { //diagonal 22 -- 11
+        xy[0] = 0, xy[1] = 0;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[2][0] == matrix[0][2] and matrix[2][0] != ' ') { // diagonal 20 -- 02
+        xy[0] = 1, xy[1] = 1;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[2][0] == matrix[1][1] and matrix[2][0] != ' ') { //diagonal 20 -- 11
+        xy[0] = 0, xy[1] = 2;
+        writeCoordinates(xy, matrix, 'o');
+    }
+    if (matrix[0][2] == matrix[1][1] and matrix[0][2] != ' ') { //diagonal 02 -- 11
+        xy[0] = 2, xy[1] = 0;
+        writeCoordinates(xy, matrix, 'o');
+    }
+}
+
+void writeCoordinates(int xy[2], char matrix[SIZE][SIZE], char symbol) {
+    matrix[xy[0]][xy[1]] = symbol;
+    }
 
 bool isWinnerDeterminedHorisontal(char matrix[SIZE][SIZE])
 {
@@ -93,7 +214,7 @@ bool isWinnerDeterminedVertical(char matrix[SIZE][SIZE])
                 consistency++;
             else
             {
-                break;              
+                break;
             }
         }
         if (consistency == SIZE - 1)
@@ -120,6 +241,7 @@ bool isWinnerDeterminedSlantingLeftToRight(char matrix[SIZE][SIZE])
     }
     return false;
 }
+
 bool isWinnerDeterminedSlantingRightToLeft(char matrix[SIZE][SIZE])
 {
     int consistencyRightToLeft = 0;
@@ -158,24 +280,16 @@ bool isWinnerDetermined(char matrix[SIZE][SIZE])
     return false;
 }
 
-void checkMatrixAttackAI(char matrix[SIZE][SIZE])
-{
-    // 1. должна проверить есть ли совпадения когда 2 ячейка O и одна свободна
-}
+//void enterCoordinatesAI(int xy[2], char matrix[SIZE][SIZE], char symbol)
+//{
+//    matrix[1][2] = symbol;
+//}
 
-void checkMatrixDefAI(char matrix[SIZE][SIZE])
-{
-    // 2. перекрытие выигрышных вариантов пользователя  когда 2 ячейка X и одна свободна
-}
+
 
 void searchClearCoordinatesAi(char matrix[SIZE][SIZE])
 {
     // 3. Поиск свободных координат-ходов
-}
-
-void writeCoordinates(int xy[2], char matrix[SIZE][SIZE], char symbol)
-{
-    matrix[xy[0]][xy[1]] = symbol;
 }
 
 bool isCoordinatesClear(int xy[2], char matrix[SIZE][SIZE])
@@ -191,7 +305,7 @@ void getAICoordinates(int xy[2])
     xy[1] = rand() % SIZE;
 }
 
-void enterUserCoordinates(int xy[2])
+void enterUserCoordinates(int xy[2])    // put in array values from user
 {
     cout << endl << "Please, enter you coordinates. X: [0;2], Y: [0,2]" << endl;
     cout << "X: ";
@@ -202,19 +316,19 @@ void enterUserCoordinates(int xy[2])
 
 bool isUserCorrectCoordinates(int xy[2])
 {
-     if (xy[0] >= 0 and xy[0] <= 2 and xy[1] >= 0 && xy[1] <= 2)
-         return true;
-     return false;
+    if (xy[0] >= 0 and xy[0] <= 2 and xy[1] >= 0 && xy[1] <= 2)
+        return true;
+    return false;
 }
 
-void getUserCoordinates(int xy[2], char matrix[SIZE][SIZE])
+void checkUserCoordinates(int xy[2], char matrix[SIZE][SIZE])
 {
     bool userCorrectCoordinates = false;
     bool coordinatesClear = false;
 
     while (userCorrectCoordinates == false or coordinatesClear == false)
     {
-        enterUserCoordinates(xy);
+        enterUserCoordinates(xy);   // put in array values from user
 
         userCorrectCoordinates = isUserCorrectCoordinates(xy);
         if (userCorrectCoordinates == false)
@@ -245,15 +359,11 @@ void printfMatrix(char matrix[SIZE][SIZE])
     }
 }
 
-void getClearMatrix(char matrix[SIZE][SIZE])
+void getClearMatrix(char matrix[SIZE][SIZE])    // array of char symbols
 {
     for (int i = 0; i < SIZE; i++)
-    {
         for (int j = 0; j < SIZE; j++)
-        {
             matrix[i][j] = ' ';
-        }
-    }
 }
 
 void clearDisplay() {
