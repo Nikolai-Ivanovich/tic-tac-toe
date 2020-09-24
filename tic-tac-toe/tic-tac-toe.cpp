@@ -207,121 +207,121 @@ int checkMatrixAttackAI(int xy[2], char matrix[SIZE][SIZE])
 int checkMatrixDefAI(int xy[2], char matrix[SIZE][SIZE])
 {
     // 2. перекрытие выигрышных вариантов пользователя  когда 2 ячейка X и одна свободна
-    if (matrix[0][0] == matrix[0][1] and matrix[0][0] != ' ') { // 0 line
+    if (matrix[0][0] == matrix[0][1] and matrix[0][0] != ' ' and matrix[0][2] != 'o') { // 0 line
         xy[0] = 0, xy[1] = 2;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][0] == matrix[0][2] and matrix[0][0] != ' ' and matrix[0][1] != 'o') { // 0 line
+    if (matrix[0][0] == matrix[0][2] and matrix[0][0] != ' ' and matrix[0][1] != 'o') { // 0 line
         xy[0] = 0, xy[1] = 1;
         writeCoordinates(xy, matrix, 'o');
         return 0;
-    }            
-    else if (matrix[0][1] == matrix[0][2] and matrix[0][1] != ' ') { // 0 line
+    }
+    if (matrix[0][1] == matrix[0][2] and matrix[0][1] != ' ' and matrix[0][0] != 'o') { // 0 line
         xy[0] = 0, xy[1] = 0;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[1][0] == matrix[1][1] and matrix[1][0] != ' ') { // 1 line
+    if (matrix[1][0] == matrix[1][1] and matrix[1][0] != ' ' and matrix[1][2] != 'o') { // 1 line
         xy[0] = 1, xy[1] = 2;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[1][0] == matrix[1][2] and matrix[1][0] != ' ') { // 1 line
+    if (matrix[1][0] == matrix[1][2] and matrix[1][0] != ' ' and matrix[1][1] != 'o') { // 1 line
         xy[0] = 1, xy[1] = 1;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[1][1] == matrix[1][2] and matrix[1][1] != ' ') { // 1 line
+    if (matrix[1][1] == matrix[1][2] and matrix[1][1] != ' ' and matrix[1][1] != 'o') { // 1 line
         xy[0] = 1, xy[1] = 0;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[2][0] == matrix[2][1] and matrix[2][0] != ' ') { // 2 line
+    if (matrix[2][0] == matrix[2][1] and matrix[2][0] != ' ' and matrix[2][1] != 'o') { // 2 line
         xy[0] = 2, xy[1] = 2;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[2][0] == matrix[2][2] and matrix[2][0] != ' ') { // 2 line
+    if (matrix[2][0] == matrix[2][2] and matrix[2][0] != ' ' and matrix[2][1] != 'o') { // 2 line
         xy[0] = 2, xy[1] = 1;
         writeCoordinates(xy, matrix, 'o');
     }
-    else if (matrix[2][1] == matrix[2][2] and matrix[2][0] != ' ') { // 2 line
+    if (matrix[2][1] == matrix[2][2] and matrix[2][0] != ' ' and matrix[2][0] != 'o') { // 2 line
         xy[0] = 2; xy[1] = 0;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][0] == matrix[1][0] and matrix[0][0] != ' ') { // column 0
+    if (matrix[0][0] == matrix[1][0] and matrix[0][0] != ' ' and matrix[2][0] != 'o') { // column 0
         xy[0] = 2, xy[1] = 0;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][0] == matrix[2][0] and matrix[0][0] != ' ') { // column 0
-        xy[0] = 1, xy[0] = 0;
+    if (matrix[0][0] == matrix[2][0] and matrix[0][0] != ' ' and matrix[1][0] != 'o') { // column 0
+        xy[0] = 1, xy[1] = 0;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[2][0] == matrix[1][0] and matrix[2][0] != ' ') { // column 0
+    if (matrix[2][0] == matrix[1][0] and matrix[2][0] != ' ' and matrix[0][0] != 'o') { // column 0
         xy[0] = 0, xy[0] = 0;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][1] == matrix[1][1] and matrix[0][1] != ' ') { // column 1
+    if (matrix[0][1] == matrix[1][1] and matrix[0][1] != ' ' and matrix[2][1] != 'o') { // column 1
         xy[0] = 2, xy[0] = 1;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][1] == matrix[2][1] and matrix[0][1] != ' ') { // column 1
+    if (matrix[0][1] == matrix[2][1] and matrix[0][1] != ' ' and matrix[1][1] != 'o') { // column 1
         xy[0] = 1, xy[0] = 1;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[1][1] == matrix[2][1] and matrix[1][1] != ' ') { // column 1
+    if (matrix[1][1] == matrix[2][1] and matrix[1][1] != ' ' and matrix[0][1] != 'o') { // column 1
         xy[0] = 0, xy[0] = 1;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][2] == matrix[1][2] and matrix[0][2] != ' ') { // column 2
+    if (matrix[0][2] == matrix[1][2] and matrix[0][2] != ' ' and matrix[2][2] != 'o') { // column 2
         xy[0] = 2, xy[0] = 2;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][2] == matrix[2][2] and matrix[0][2] != ' ') { // column 2
+    if (matrix[0][2] == matrix[2][2] and matrix[0][2] != ' ' and matrix[1][2] != 'o') { // column 2
         xy[0] = 1, xy[0] = 2;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[1][2] == matrix[2][2] and matrix[1][2] != ' ') { // column 2
+    if (matrix[1][2] == matrix[2][2] and matrix[1][2] != ' ' and matrix[0][0] != 'o') { // column 2
         xy[0] = 0, xy[0] = 0;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][0] == matrix[2][2] and matrix[0][0] != ' ') { // diagonal 00 -- 22
+    if (matrix[0][0] == matrix[2][2] and matrix[0][0] != ' ' and matrix[1][1] != 'o') { // diagonal 00 -- 22
         xy[0] = 1, xy[1] = 1;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][0] == matrix[1][1] and matrix[0][0] != ' ') { //diagonal 00 -- 11
+    if (matrix[0][0] == matrix[1][1] and matrix[0][0] != ' ' and matrix[2][2] != 'o') { //diagonal 00 -- 11
         xy[0] = 2, xy[1] = 2;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[2][2] == matrix[1][1] and matrix[1][1] != ' ') { //diagonal 22 -- 11
+    if (matrix[2][2] == matrix[1][1] and matrix[1][1] != ' ' and matrix[0][0] != 'o') { //diagonal 22 -- 11
         xy[0] = 0, xy[1] = 0;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[2][0] == matrix[0][2] and matrix[2][0] != ' ') { // diagonal 20 -- 02
+    if (matrix[2][0] == matrix[0][2] and matrix[2][0] != ' ' and matrix[1][1] != 'o') { // diagonal 20 -- 02
         xy[0] = 1, xy[1] = 1;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[2][0] == matrix[1][1] and matrix[2][0] != ' ') { //diagonal 20 -- 11
+    if (matrix[2][0] == matrix[1][1] and matrix[2][0] != ' ' and matrix[0][2] != 'o') { //diagonal 20 -- 11
         xy[0] = 0, xy[1] = 2;
         writeCoordinates(xy, matrix, 'o');
         return 0;
     }
-    else if (matrix[0][2] == matrix[1][1] and matrix[0][2] != ' ') { //diagonal 02 -- 11
+    if (matrix[0][2] == matrix[1][1] and matrix[0][2] != ' ' and matrix[2][0] != 'o') { //diagonal 02 -- 11
         xy[0] = 2, xy[1] = 0;
         writeCoordinates(xy, matrix, 'o');
         return 0;
